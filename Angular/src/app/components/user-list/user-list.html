@@ -1,0 +1,58 @@
+<h2>Elenco Utenti</h2>
+
+<!-- Requisito 3: Indicatore di caricamento -->
+@if (userService.loading()) {
+  <div style="background-color: #e3f2fd; padding: 10px; margin-bottom: 10px;">
+    🔄 Caricamento in corso...
+  </div>
+}
+
+<!-- Requisito 3: Messaggio di errore -->
+@if (userService.error()) {
+  <div style="background-color: #ffebee; color: #c62828; padding: 10px; margin-bottom: 10px;">
+    ⚠️ {{ userService.error() }}
+  </div>
+}
+
+<!-- Requisito 1: Form per POST (Aggiungi Utente) -->
+<fieldset style="margin-bottom: 20px; padding: 15px;">
+  <legend><strong>Aggiungi Utente</strong></legend>
+  <input 
+    type="text" 
+    placeholder="Nome" 
+    [ngModel]="newName()" 
+    (ngModelChange)="newName.set($event)"
+    style="margin-right: 10px;"
+  >
+  <input 
+    type="email" 
+    placeholder="Email" 
+    [ngModel]="newEmail()" 
+    (ngModelChange)="newEmail.set($event)"
+    style="margin-right: 10px;"
+  >
+  <button (click)="onCreateUser()">Crea</button>
+</fieldset>
+
+<!-- Requisito 2: Filtro e Conteggio computed -->
+<div style="margin-bottom: 15px;">
+  <input 
+    type="text" 
+    placeholder="Cerca utente..." 
+    [ngModel]="searchTerm()" 
+    (ngModelChange)="searchTerm.set($event)"
+    style="padding: 5px;"
+  />
+  <p>Totale elementi visualizzati: <strong>{{ totalCount() }}</strong></p>
+</div>
+
+<!-- Lista utenti -->
+<ul>
+  @for (user of filteredUsers(); track user.id) {
+    <li style="margin-bottom: 5px;">
+      <a [routerLink]="['/users', user.id]">
+        {{ user.name }} ({{ user.email }})
+      </a>
+    </li>
+  }
+</ul>

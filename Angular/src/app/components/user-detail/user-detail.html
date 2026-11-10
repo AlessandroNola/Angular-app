@@ -1,0 +1,29 @@
+<p><a routerLink="/users">← Torna all'elenco</a></p>
+
+@if (userService.loading()) {
+  <div style="background-color: #e3f2fd; padding: 10px;">
+    🔄 Caricamento utente {{ currentId }}...
+  </div>
+}
+
+@if (userService.error()) {
+  <div style="background-color: #ffebee; color: #c62828; padding: 15px; border: 1px solid red;">
+    ⚠️ {{ userService.error() }}
+  </div>
+}
+
+@if (userService.selectedUser(); as user) {
+  <div style="border: 1px solid #ccc; padding: 15px; margin: 15px 0;">
+    <h2>{{ user.name }}</h2>
+    <p><strong>ID:</strong> {{ user.id }}</p>
+    <p><strong>Username:</strong> {{ user.username }}</p>
+    <p><strong>Email:</strong> {{ user.email }}</p>
+    <p><strong>Telefono:</strong> {{ user.phone }}</p>
+    <p><strong>Sito Web:</strong> {{ user.website }}</p>
+  </div>
+}
+
+<div style="margin-top: 20px;">
+  <button (click)="prev()" [disabled]="currentId <= 1">« Precedente</button>
+  <button (click)="next()" style="margin-left: 10px;">Successivo »</button>
+</div>
